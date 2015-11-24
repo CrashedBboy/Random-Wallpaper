@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "name": "RandomWallpaper",
+  "name": "Rand WP",
   "description": "Setting random Image as wallpaper",
   "launch_path": "/index.html",
   "icons": {

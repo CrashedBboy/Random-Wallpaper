@@ -14,7 +14,11 @@
     "url": "http://crashedbboy.blogspot.tw"
   },
   "type": "privileged",
-  "permissions": {},
+  "permissions": {
+		"systemXHR" : {
+      "description" : "Required to access remote api"
+    }
+	},
   "installs_allowed_from": [
     "*"
   ],

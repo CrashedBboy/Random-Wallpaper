@@ -36,11 +36,12 @@ function preview(list){
 	showUpdateBtn();
 	var len = list.wallpapers.length;
 	var image_url = list.wallpapers[Math.floor(Math.random() * len)].url;
-	document.body.style.backgroundImage = "url('" + image_url + "')";
+	document.getElementById("preview").src = image_url;
 };
 
 /** show loading icon on button */
 function loading(){
+	$("#new_btn").css("background-color", "black");
 	$("#new_btn_wrapper").hide();
 	$("#new_btn_loader").show();
 };
@@ -53,12 +54,14 @@ function showStatus(msg){
 
 /** hide status bar and show apply button */
 function showApplyBtn(){
-	$("#new_btn_loader").hide();
-	$("#new_btn_wrapper").show();
+	$("#status").hide();
+	$("#apply_btn").show();
 };
 
 /** 'Get New' on main button */
 function showUpdateBtn(){
+	$("#new_btn").css("background-color", "#FFA500");
 	$("#status").hide();
-	$("#apply_btn").show();
+	$("#new_btn_loader").hide();
+	$("#new_btn_wrapper").show();
 };

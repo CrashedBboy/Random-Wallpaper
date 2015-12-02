@@ -9,6 +9,28 @@ function update(){
 /** share this image as blob (to wallpaper manager) */
 function setWallpaper(){
 	// check https://github.com/robnyman/Firefox-OS-Boilerplate-App/blob/gh-pages/js/webapp.js
+	var img = document.getElementById("preview");
+	console.log(img);
+	if(img.naturalWidth > 0 && img.naturalHeight > 0) {
+		var blobCanvas = document.createElement("canvas");
+		blobCanvas.width = img.naturalWidth;
+		blobCanvas.height = img.naturalHeight;
+		var blobCanvasContext = blobCanvas.getContext("2d");
+		blobCanvasContext.drawImage(img, 0, 0);
+
+		blobCanvas.toBlob(function(blob) {
+			new MozActivity({
+				name: "share",
+				data: {
+					type: "image/*",
+					number: 1,
+					blobs: [blob]
+				}
+			});
+		});
+	}else {
+		alert("None image for setting!");
+	}
 };
 
 /** get daily list of wallpapers */

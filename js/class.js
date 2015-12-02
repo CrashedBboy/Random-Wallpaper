@@ -8,16 +8,14 @@ function update(){
 
 /** share this image as blob (to wallpaper manager) */
 function setWallpaper(){
-	// check https://github.com/robnyman/Firefox-OS-Boilerplate-App/blob/gh-pages/js/webapp.js
-	var img = document.getElementById("preview");
-	console.log(img);
-	if(img.naturalWidth > 0 && img.naturalHeight > 0) {
-		var blobCanvas = document.createElement("canvas");
-		blobCanvas.width = img.naturalWidth;
-		blobCanvas.height = img.naturalHeight;
-		var blobCanvasContext = blobCanvas.getContext("2d");
+	var img = new Image();
+	img.crossOrigin = "Anonymous";
+	var blobCanvas = document.createElement("canvas");
+	blobCanvas.width = document.getElementById("preview").naturalWidth;
+	blobCanvas.height = document.getElementById("preview").naturalHeight;
+	var blobCanvasContext = blobCanvas.getContext("2d");
+	img.onload = function() {
 		blobCanvasContext.drawImage(img, 0, 0);
-
 		blobCanvas.toBlob(function(blob) {
 			new MozActivity({
 				name: "share",
@@ -28,17 +26,22 @@ function setWallpaper(){
 				}
 			});
 		});
-	}else {
-		alert("None image for setting!");
-	}
+		console.log("success");
+	};
+	img.onerror = function(event) {
+		console.log(event);
+	};
+	img.src = document.getElementById("preview").src;
+
 };
 
 /** get daily list of wallpapers */
 function retrieveList(){
 	return new Promise(function(resolve, reject) {
 		var req = new XMLHttpRequest({ mozSystem: true });
-		req.open('GET', 'http://wall.alphacoders.com/api1.0/get.php?auth=a610819e90c0a65ae7dfd7f7c56dd976', true);
+		req.open('GET', 'https://api.gettyimages.com/v3/search/images?fields=id,title,thumb,referral_destinations&sort_order=most_popular&phrase=scenery', true);
 		req.responseType = 'json';
+		req.setRequestHeader("Api-Key", "3bz43wrq8374h6mfn2yr3bre");
 		req.onload = function() {
 			if(req.status === 200) {
 				resolve(req.response);
@@ -55,9 +58,10 @@ function retrieveList(){
 
 /** append one of wallpapers on app body */
 function preview(list){
+	console.log(list);
 	showUpdateBtn();
-	var len = list.wallpapers.length;
-	var image_url = list.wallpapers[Math.floor(Math.random() * len)].url;
+	var len = list.images.length;
+	var image_url = list.images[Math.floor(Math.random() * len)].display_sizes[0].uri;
 	document.getElementById("preview").src = image_url;
 };
 

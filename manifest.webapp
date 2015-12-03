@@ -17,14 +17,7 @@
   "permissions": {
 		"systemXHR" : {
       "description" : "Required to access remote api"
-    },
-		"device-storage:pictures": {
-		    "access": "readcreate"
-		},
-		"contacts": {
-		    "description" : "Reading out contacts",
-				"access": "readcreate"
-	    }
+    }
 	},
   "installs_allowed_from": [
     "*"

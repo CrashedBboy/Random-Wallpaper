@@ -1,38 +1,40 @@
 'use strict';
 
 function update(){
-	showStatus("Loading...");
 	loading();
-	retrieveList();
+	retrieveList().then(preview);
 };
 
 /** share this image as blob (to wallpaper manager) */
 function setWallpaper(){
-	var img = new Image();
-	img.crossOrigin = "Anonymous";
-	var blobCanvas = document.createElement("canvas");
-	blobCanvas.width = document.getElementById("preview").naturalWidth;
-	blobCanvas.height = document.getElementById("preview").naturalHeight;
-	var blobCanvasContext = blobCanvas.getContext("2d");
-	img.onload = function() {
-		blobCanvasContext.drawImage(img, 0, 0);
-		blobCanvas.toBlob(function(blob) {
-			new MozActivity({
-				name: "share",
-				data: {
-					type: "image/*",
-					number: 1,
-					blobs: [blob]
-				}
+	var preview = document.getElementById("preview");
+	if(preview.naturalWidth > 0 && preview.naturalHeight > 0) {
+		var img = new Image();
+		var blobCanvas = document.createElement("canvas");
+		var blobCanvasContext = blobCanvas.getContext("2d");
+		img.crossOrigin = "Anonymous";
+		blobCanvas.width = preview.naturalWidth;
+		blobCanvas.height = preview.naturalHeight;
+		img.onload = function() {
+			blobCanvasContext.drawImage(img, 0, 0);
+			blobCanvas.toBlob(function(blob) {
+				new MozActivity({
+					name: "share",
+					data: {
+						type: "image/*",
+						number: 1,
+						blobs: [blob]
+					}
+				});
 			});
-		});
-		console.log("success");
-	};
-	img.onerror = function(event) {
-		console.log(event);
-	};
-	img.src = document.getElementById("preview").src;
-
+		};
+		img.onerror = function(event) {
+			console.log(event);
+		};
+		img.src = preview.src;
+	} else {
+		alert("Failed to load Image!");
+	}
 };
 
 /** get daily list of wallpapers */
@@ -48,25 +50,27 @@ function retrieveList(){
 			}
 		};
 		req.onerror = function() {
-			console.log("error");
 			reject(new Error(req.statusText));
 		};
 		req.send();
-		loading();
 	});
 };
 
 /** append one of wallpapers on app body */
 function preview(list){
-	console.log(list);
-	showUpdateBtn();
 	var len = list.images.length;
 	var image_url = list.images[Math.floor(Math.random() * len)].display_sizes[0].uri;
-	document.getElementById("preview").src = image_url;
+	var img = document.getElementById("preview");
+	img.onload = function() {
+		showUpdateBtn();
+		showApplyBtn();
+	}
+	img.src = image_url;
 };
 
 /** show loading icon on button */
 function loading(){
+	showStatus("Loading..");
 	$("#new_btn").css("background-color", "black");
 	$("#new_btn_wrapper").hide();
 	$("#new_btn_loader").show();

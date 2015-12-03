@@ -17,7 +17,7 @@
 	width: 40vh;
 	top: 80vh;
 	left: -19vh;
-	box-shadow: 5px 0px 35px black;
+	box-shadow: -15px -25px 50px #000;
 	transition: background-color 0.2s;
 	transition-timing-function: linear;
 }
@@ -32,7 +32,7 @@
 	background-color: rgb(10, 10, 10);
 	border-top: 1px solid orange;
 	padding-top: 5%;
-	box-shadow: 5px 0px 40px black;
+	box-shadow: 0px -20px 50px #000;
 }
 
 #new_btn_loader {
@@ -55,28 +55,33 @@
 	left: 52%;
 	padding-top: 12%;
 	font-size: 2em;
-	font-weight: 900;
-	text-shadow: 0px 0px 5px black;;
+	font-weight: 200;
+	text-shadow: 0px 0px 2px black;;
+	letter-spacing: 3px;
+	cursor: pointer;
 }
 
 #status {
 	display: block;
 	height: 100%;
 	color: #E6E6E6;
-	margin-left: 39%;
+	margin-left: 32%;
 	font-size: 1.5em;
-	font-weight: 600;
-	width: 60%;
+	font-weight: 200;
+	width: 68%;
 	text-align: center;
 }
 
 #apply_btn {
-	color: rgb(230, 230, 230);
-	font-weight: 600;
 	font-size: 1.5em;
 	display: block;
 	margin-left: 44%;
-	width: 56%;
-	letter-spacing: 20px;
+	width: 50%;
+	letter-spacing: 7px;
+	text-align: center;
+	font-weight: 300;
+	border-radius: 5px;
+	border: 0.5px solid yellow;
+	color: yellow;
+	cursor: pointer;
 }
-

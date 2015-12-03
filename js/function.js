@@ -58,14 +58,19 @@ function retrieveList(){
 
 /** append one of wallpapers on app body */
 function preview(list){
-	var len = list.images.length;
-	var image_url = list.images[Math.floor(Math.random() * len)].display_sizes[0].uri;
+	console.log(list);
 	var img = document.getElementById("preview");
 	img.onload = function() {
 		showUpdateBtn();
 		showApplyBtn();
 	}
-	img.src = image_url;
+	img.src = getRandomURL(list);
+};
+
+function getRandomURL(urlList) {
+	var len = urlList.images.length;
+	var image_url = urlList.images[Math.floor(Math.random() * len)].display_sizes[0].uri;
+	return image_url;
 };
 
 /** show loading icon on button */
